@@ -3,7 +3,7 @@
 
 #Read in the file and return a list of all the integers
 def readFile() -> list:
-    with open(f"{__file__.rstrip('DAY2.py')}input.txt", "r") as f:
+    with open("input.txt", "r") as f:
         return [str(line[:-1]) for line in f.readlines()]
 
 #Find the count of passwords that do fit the criteria

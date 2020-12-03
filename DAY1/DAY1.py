@@ -3,7 +3,7 @@
 
 #Read in the file and return a list of all the integers
 def readFile() -> list:
-    with open(f"{__file__.rstrip('DAY1.py')}input.txt", "r") as f:
+    with open("input.txt", "r") as f:
         return [int(line[:-1]) for line in f.readlines()]
 
 #Find the two numbers that add up to 2020 in vals and then return the product

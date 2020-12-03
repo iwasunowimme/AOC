@@ -3,8 +3,8 @@
 
 #Read in the file and return a list of all the integers
 def readFile() -> list:
-    with open(f"{__file__.rstrip('DAY3.py')}input.txt", "r") as f:
-        return [str(line[:-1]) for line in f.readlines()]
+    with open("input.txt", "r") as f:
+        return [line[:-1] for line in f.readlines()]
 
 # itterates through the list to find the collisions
 def part1(vals) -> int:
@@ -39,8 +39,6 @@ def test():
 if __name__ == "__main__":
     test()
     vals = readFile()
-    # print(vals)
-    # part1(vals)
     print(part1(vals))
     print(part2(vals))
 
