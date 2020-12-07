@@ -35,10 +35,7 @@ def part2(vals):
             if p:
                 temp = temp2
                 p = False
-            else:
-                print(temp, temp2, temp & temp2)
                 temp = temp & temp2
-                print(temp,temp2,temp&temp2)
     count += len(temp)
     return count
 
