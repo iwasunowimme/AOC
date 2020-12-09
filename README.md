@@ -10,4 +10,4 @@ All attempts will be made using Python.
 
 ## Subfolders:
 - **2020**: This is the subfolder for all AOC 2020 related resources
-- **2015**: This is the subfolder for all AOC 2016 related resources
+- **2015**: This is the subfolder for all AOC 2015 related resources
