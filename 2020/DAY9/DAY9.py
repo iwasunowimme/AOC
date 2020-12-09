@@ -1,39 +1,35 @@
 '''https://adventofcode.com/2020/day/9'''
+from itertools import combinations
 
 # Input the values as ints into a list
 with open("input.txt", "r") as f:
     vals = [int(line) for line in f.readlines()]
 
 # Set the preamble to the first 25 digits
-pre = vals[:25]
+preamble = 25
 
-# Loop starting at the first digit post preamble to the end
-for val in vals[25:]:
-    acceptable = False
-    for i in range(len(pre)):
-        if val - pre[i] in pre[i+1:]:
-            acceptable = True
-            pre.pop(0)
-            pre.append(val)
-            break
-    if not acceptable:
-        weak = val
-        print("Part1: ", val)
+for j in range(preamble, len(vals)):
+    # Get a set of combinations from the the moving preamble then sum all pairs
+    # Then see if the current number is part of the sum, "there" is a boolean to see if it is true at any point
+    there = any([sum(i) == vals[j] for i in combinations(vals[j - preamble:j], 2)])
+    if not there:  # Number did not have a sum
+        weak = vals[j]
+        print("Part1: ", weak)
         break
+
 
 # Loop Through the entire list of values
 for i in range(len(vals)):
-    sum = 0
-    nums = []
+    total = 0
+    nums = i
     equals = False
-    for v in vals[i:]:
-        sum += v
-        nums.append(v)
-        if sum == weak:
+    for j in range(i, len(vals)):  # Go through all values starting at i and add them and compare to weak number
+        total += vals[j]
+        if total == weak:  # We found the continuous set of numbers
             equals = True
             break
-        elif sum > weak:
+        elif total > weak:  # Number can not go down as no negative input numbers
             break
-    if equals:
-        print("Part2: ", min(nums) + max(nums))
+    if equals:  # If we have found it
+        print("Part2: ", min(vals[i:j]) + max(vals[i:j]))
         break
