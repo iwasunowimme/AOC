@@ -1,18 +1,21 @@
 '''https://adventofcode.com/2015/day/4'''
 
 import hashlib
-i=0
-while i < 10000000: # force a high loop vale
-    temp = hashlib.md5(("yzbqklnj"+str(i)).encode('utf-8')).hexdigest()
-    if temp[:5] == "00000": # five leading 0's
+i = 0
+million = 1000000
+tenmillion = 10000000
+secret = "yzbqklnj"
+while i < million:  # force a high loop vale
+    # Implements the md5 hash from hashlib to find the first i that will give 5 leading zeros
+    if hashlib.md5((secret+str(i)).encode('utf-8')).hexdigest()[:5] == '00000':  # 5 leading 0's
         print(i)
         break
-    i+=1
+    i += 1
 
-i=0
-while i >-1: # force a high loop vale
-    temp = hashlib.md5(("yzbqklnj"+str(i)).encode('utf-8')).hexdigest()
-    if temp[:6] == "000000": #6 leading 0's
+i = 0
+while i < tenmillion:  # force a high loop vale
+    # Implements the md5 hash from hashlib to find the first i that will give 6 leading zeros
+    if hashlib.md5((secret+str(i)).encode('utf-8')).hexdigest()[:6] == '000000':  # 6 leading 0's
         print(i)
         break
-    i+=1
+    i += 1
