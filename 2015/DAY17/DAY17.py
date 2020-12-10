@@ -5,10 +5,11 @@ from itertools import combinations
 with open("input.txt", "r") as f:
     vals = [int(lines[:-1]) for lines in f.readlines()]
 
-#vals = [20, 15, 10, 5, 5]  # Test input
+# vals = [20, 15, 10, 5, 5]  # Test input
 
 # Set eggnog as per specs, total capacity of bags
 eggnog = 150
+
 
 def eggy(vals, egg) -> int:
     '''
