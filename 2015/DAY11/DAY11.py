@@ -43,7 +43,7 @@ def checkPassword(password) -> bool:
                 completed.add(password[i])
     # sets the doubles boolean to see if there are more than 1
     doubles = double > 1
-    
+
     return straight and doubles
 
 
