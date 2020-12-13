@@ -2,120 +2,124 @@
 
 from copy import deepcopy
 
+
 with open("input.txt", "r") as f:
-    vals = [lines[:-1] for lines in f.readlines()]
-#vals =["L.LL.LL.LL","LLLLLLL.LL","L.L.L..L..","LLLL.LL.LL","L.LL.LL.LL","L.LLLLL.LL","..L.L.....","LLLLLLLLLL","L.LLLLLL.L","L.LLLLL.LL"]
+    seats = [lines[:-1] for lines in f.readlines()]
 
-seats = {}
-i = 0
-for value in vals:
-    j = 0
-    for seat in value:
-        seats[i, j] = seat
-        j += 1
-    i += 1
-# for m in range(i):
-#     for n in range(j):
-#         print(seats[m, n], end="")
-#     print()
-# print()
-part2seats = deepcopy(seats)
-def findNeighbours(current, x, y) -> str:
-    total = 0
+# Test data
+# seats =["L.LL.LL.LL","LLLLLLL.LL","L.L.L..L..","LLLL.LL.LL","L.LL.LL.LL","L.LLLLL.LL","..L.L.....","LLLLLLLLLL","L.LLLLLL.L","L.LLLLL.LL"]
 
-    for xAxis in range(x-1,x+2):
-        for yAxis in range(y-1, y+2):
-            try:
-                if xAxis == x and yAxis == y:
-                    continue
-                else:
-                    if current[xAxis, yAxis] == "#":
-                        total += 1
-            except:
-                continue
-    curr =current[x, y]
-
-    if curr == "L" and total == 0:
-        return "#"
-    elif curr == "#" and total >=4:
-        return "L"
-    else:
-        return curr
-last = 0
-last2 = 0
+# Convert the strings to lists
+seats = [list(a) for a in seats]
+# Create a deep copy to be used for part 2
 seatspart2 = deepcopy(seats)
-for _ in range(100):
-    current_state = deepcopy(seats)
-    for key in seats:
-        if current_state[key] != ".":
-            seats[key] = findNeighbours(current_state, key[0], key[1])
-    tot = sum([1 for v in seats.values() if v == "#"])
-    if tot == last and tot == last2:
-        print("Part1: ", tot)
-        break
-    else:
-        last2 = last
-        last = tot
-    # for m in range(i):
-    #     for n in range(j):
-    #         print(seats[m, n], end="")
-    #     print()
-    # print()
 
+# Set max values, assumes data it is a rectangle
+yMax = len(seats[0])
+xMax = len(seats)
 
-
-def findNeighbours2(current, x, y) -> str:
-    total = 0
-
-    for xAxis in range(x-1,x+2):
-        for yAxis in range(y-1, y+2):
-            try:
-                if xAxis == x and yAxis == y:
-                    continue
-                else:
-                    xAxis2 = xAxis
-                    yAxis2 = yAxis
-
-                    while current[xAxis2, yAxis2] == "." and xAxis2 >=0 and yAxis2 >=0 and xAxis2 < i and yAxis2 < j:
-                       # print(x,y,xAxis,yAxis, xAxis2 ,yAxis2)
-                        xAxis2 += xAxis - x
-                        yAxis2 += yAxis - y
-                    if current[xAxis2, yAxis2] == "#":
-                        total += 1
-            except:
-                continue
-
-    curr =current[x, y]
-
-    if curr == "L" and total == 0:
-        return "#"
-    elif curr == "#" and total >=5:
-        return "L"
-    else:
-        return curr
+# Find convergence by comparing last 3 sums
 last = 0
 last2 = 0
 
-seats = deepcopy(part2seats)
-for m in range(i):
-    for n in range(j):
-        print(seats[m, n], end="")
-    print()
-print()
+# Iterate for an arbitrary large number (assume convergence before range ends)
 for _ in range(100):
-    current_state = deepcopy(seats)
-    for key in seats:
-        if current_state[key] != ".":
-            seats[key] = findNeighbours2(current_state, key[0], key[1])
-    tot = sum([1 for v in seats.values() if v == "#"])
+    new_seats = deepcopy(seats)
+
+    # iterate through entire list as a 2d array
+    for x in range(xMax):
+        for y in range(yMax):
+            if seats[x][y] != ".":  # Skip if it is the floor
+                total = 0
+
+                # finds neighbours by modifying current x and y with -1, 0, or +1
+                for xAxis in range(-1, 2):
+                    for yAxis in range(-1, 2):
+                        if not (xAxis == 0 and yAxis == 0):  # If not the cell itself (not a neighbour)
+                            # Add modifiers
+                            xCell = x + xAxis
+                            yCell = y + yAxis
+
+                            # If cell is valid and is occupied
+                            if 0 <= yCell < yMax and 0 <= xCell < xMax and seats[xCell][yCell] == '#':
+                                total += 1
+
+                curr = seats[x][y]  # Find current state
+                # If seat is empty and there are no occupied seats, occupy the seat
+                if curr == 'L' and total == 0:
+                    new_seats[x][y] = '#'
+                # If seat is occupied and there are more thant 4 occupied seats, vacate the seat
+                elif curr == '#' and total >= 4:
+                    new_seats[x][y] = 'L'
+                # Keep state same if not met before
+                else:
+                    new_seats[x][y] = curr
+
+            # If the floor, stay as the floor
+            else:
+                new_seats[x][y] = seats[x][y]
+    # the seats become the new seats
+    seats = deepcopy(new_seats)
+
+    # Sum all occupied seat
+    tot = sum([row.count('#') for row in seats])
     if tot == last and tot == last2:
         print("Part1: ", tot)
         break
     else:
         last2 = last
         last = tot
-    for m in range(i):
-        for n in range(j):
-            print(seats[m, n], end="")
-        print()
-    print()
+
+
+last = 0
+last2 = 0
+# Iterate for an arbitrary large number (assume convergence before range ends)
+for _ in range(100):
+    new_seats = deepcopy(seatspart2)
+
+    # iterate through entire list as a 2d array
+    for x in range(xMax):
+        for y in range(yMax):
+            if seatspart2[x][y] != ".":  # Skip if it is the floor
+                total = 0
+
+                # finds neighbours by modifying current x and y with -1, 0, or +1
+                for xAxis in range(-1, 2):
+                    for yAxis in range(-1, 2):
+                        if not (xAxis == 0 and yAxis == 0):  # If not the cell itself (not a neighbour)
+                            # Add modifiers
+                            xCell = x + xAxis
+                            yCell = y + yAxis
+                            while 0 <= yCell < yMax and 0 <= xCell < xMax and seatspart2[xCell][yCell] == '.':
+                                xCell += xAxis
+                                yCell += yAxis
+                            # If cell is valid and is occupied
+                            if 0 <= yCell < yMax and 0 <= xCell < xMax and seatspart2[xCell][yCell] == '#':
+                                total += 1
+
+                curr = seatspart2[x][y]  # Find current state
+                # If seat is empty and there are no occupied seats, occupy the seat
+                if curr == 'L' and total == 0:
+                    new_seats[x][y] = '#'
+                # If seat is occupied and there are more thant 4 occupied seats, vacate the seat
+                elif curr == '#' and total >= 5:
+                    new_seats[x][y] = 'L'
+                # Keep state same if not met before
+                else:
+                    new_seats[x][y] = curr
+
+            # If the floor, stay as the floor
+            else:
+                new_seats[x][y] = seatspart2[x][y]
+    # the seats become the new seats
+    seatspart2 = deepcopy(new_seats)
+
+    # Sum all occupied seat
+    tot = sum([row.count('#') for row in seatspart2])
+    if tot == last and tot == last2:
+        print("Part1: ", tot)
+        break
+    else:
+        last2 = last
+        last = tot
+
