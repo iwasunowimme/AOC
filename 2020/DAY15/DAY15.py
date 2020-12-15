@@ -1,37 +1,31 @@
+'''https://adventofcode.com/2020/day/15'''
 
-import re
-from copy import deepcopy
-from collections import defaultdict
-from itertools import combinations
-from itertools import permutations
+# Part1 is till 2020, part2 is till 3x10**7
+for part in [2020, 30000000]:
+    # Import values
+    values = [2, 15, 0, 9, 1, 20]  # Since the array is used need to be reinstated
 
+    # Generate a dictionary of all values with turn spoken as value
+    # Add 1 to increase turn counter
+    nums = {num: i+1 for i, num in enumerate(values)}
 
-values = [2,15,0,9,1,20]
-# values = [3,1,2]
+    # Last number is the last number on the list, last added+
+    last = values[-1]
+    # iterate till the part end number
+    for j in range(len(nums), part):
 
-spoken = defaultdict(int)
-said =  defaultdict(int)
-last = 0
-for j, val in enumerate(values):
-    if said[val] == 0:
-        spoken[val] = j + 1
-        said[val] = 1
-    else:
-        spoken[val] = j + 1
-        said[val] += 1
-    last = val
-for i in range(j + 1, 30000000):
-    # print(spoken[last], said[last], last)
-    if said[last] == 0:
-        spoken[last] = i
-        said[last] = 1
-        last = 0
-    else:
-        last2 = i - spoken[last]
-        spoken[last] = i
-        last = last2
+        # The current spoken number is this current turn less the last turn the last word was spoken,
+        # If the last word had only been spoken then, the value is 0
+        speak = j - nums[last] if last in nums else 0
 
-print(last)
+        # Set the last spoken number as the jth position
+        # This is done after the assigning of current spoken number due to the first spoken rule
+        nums[last] = j
+        # Last number is the last number spoken
+        last = speak
+
+    # Print the last spoken number
+    print(last)
 
 
 
