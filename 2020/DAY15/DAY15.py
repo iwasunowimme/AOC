@@ -1,7 +1,7 @@
 '''https://adventofcode.com/2020/day/15'''
 
 # Part1 is till 2020, part2 is till 3x10**7
-for part in [2020, 30000000]:
+for part in [2020, 30_000_000]:
     # Import values
     values = [2, 15, 0, 9, 1, 20]  # Since the array is used need to be reinstated
 
