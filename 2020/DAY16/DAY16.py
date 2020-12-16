@@ -1,4 +1,4 @@
-'''https://adventofcode.com/2020/day/16'''
+# https://adventofcode.com/2020/day/16
 
 import re
 
@@ -14,7 +14,7 @@ fields = {}
 nearby = []
 my_ticket = []
 
-# Create the index of the values for which they start with "depature" for use in part 2
+# Create the index of the values for which they start with "departure" for use in part 2
 departure_indexes = []
 departure_indexes_pointer = 0
 # Hard coded booleans to match formatting on input to know which section we are up to
@@ -28,7 +28,7 @@ for value in values:
         if section == 0:  # Fields
             data = value.split(":")
             fields[data[0]] = [int(i) for i in numbers.findall(data[1])]
-            # If the field is a "depature" field, add the index to the list
+            # If the field is a "departure" field, add the index to the list
             if value.startswith("departure"):
                 departure_indexes.append(departure_indexes_pointer)
         elif section == 1:  # Your ticket
@@ -92,6 +92,7 @@ for column in columns:
         truth.append(count == len(column))
     # Add the columns truth table to the list
     trues.append(truth)
+
 # We want to find all correct fields
 correct_fields = {}
 # Whilst there is still an unknown continue
@@ -115,11 +116,8 @@ while len(correct_fields) < total_fields:
 
 # Product starts at 1
 total = 1
-# iterate through the depature indexes and multiply the ticket values together
+# iterate through the departure indexes and multiply the ticket values together
 for idx in departure_indexes:
     total *= my_ticket[correct_fields[idx]]
 
 print("part2: ", total)
-
-
-
