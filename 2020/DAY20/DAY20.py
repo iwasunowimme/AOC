@@ -32,9 +32,7 @@ while values:
             tile = int(v.split()[1][:-1])
         else:
             diagram[tile].append(v)
-print(diagram)
 size = isqrt(len(diagram))
-print(size,len(diagram))
 dq = deque('LURD')
 megaset = set()
 corners = []
@@ -81,10 +79,9 @@ for c in corners:
     if 'right' in shape[c]:
         if 'bottom' in shape[c]:
             start = c
-print(corners)
+
 print("part1: ", total)
 
-# print(shape)
 def rotate(left,right):
     rotatations = 0
     if 'left' in shape[right]:
@@ -115,8 +112,6 @@ def rotate(left,right):
         diagram[right] = list(zip(*diagram[right][::-1]))
     ZZ = ''.join([x[-1] for x in diagram[left]])
     YY = ''.join([x[0] for x in diagram[right]])
-    # print(left,right)
-    # print(ZZ,YY)
     if  ZZ != YY:
         if 'top' in shape[right]:
             if 'bottom' in shape[right]:
@@ -182,19 +177,16 @@ direction2 = "bottom"
 j = 0
 spots = [[0 for _ in range(size)] for __ in range(size)]
 
-# print(shape[first])
 while j < size:
     i = 0
     while i < size - 1:
-        if i == 0:
-            print(i,j,next)
+
         spots[j][i] = next
 
         last = next
         next = shape[last]['right']
         shape, diagram = rotate(last, next)
 
-        # print(next)
         i += 1
 
     spots[j][i] = next
@@ -204,8 +196,7 @@ while j < size:
         first = next
 
     j+=1
-# print(spots)
-print("end")
+
 combines = []
 for xx in spots:
     for i in range(1,len(diagram[xx[0]])-1):
@@ -213,11 +204,9 @@ for xx in spots:
         for xxx in xx:
             new_x.append(''.join(diagram[xxx][i][1:-1]))
         combines.append(''.join(new_x))
-    #         print(''.join(diagram[xxx][i]), end=' ')
-    #     print()
-    # print()
-for com in combines:
-    print(com)
+
+# for com in combines:
+#     print(com)
 
 max_snek = 0
 for _ in range(2):
@@ -243,5 +232,4 @@ for _ in range(2):
 
         combines = list(zip(*combines[::-1]))
     combines = combines[::-1]
-print(max_snek)
-print(sum([sum([1 for x in z  if x == "#"]) for z in combines]) - max_snek)
+print("Part2: ", sum([sum([1 for x in z  if x == "#"]) for z in combines]) - max_snek)
