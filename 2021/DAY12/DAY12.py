@@ -1,12 +1,8 @@
 # The Advent of Code challenge for day 12
 """ https://adventofcode.com/2021/day/12 """
 import time
-import re
 from collections import defaultdict
-from itertools import combinations
-from functools import lru_cache
 from collections import deque 
-from copy import deepcopy
 #Read in the file and return a list of all the integers
 def readFile():
     with open("DAY12/input.txt", "r") as f:
@@ -30,7 +26,7 @@ def solve(part2):
     dqueue = deque([start])
     while dqueue:
         point, small_seen, twice = dqueue.popleft()
-        if point == 'end':
+        if point == 'end':  # we have reached the end
             count += 1
             continue
         for each in graph[point]:
@@ -50,18 +46,20 @@ print(f"Part 2: {solve(True)}")
 t3 = time.perf_counter() 
 
 
+# Traverse through the list recursively
 def traverse(x,visisted,triggered,part2):
     pathings = []
-    if x == 'end':
+    if x == 'end': # end
         return [[x]]
-    if x == 'start' and visisted != []:
+    if x == 'start' and visisted != []:  # first start to initialise
         return []
-    if x in visisted:
+    if x in visisted:  # if we have gone through it before
         if not x.isupper():
             if triggered or not part2:
                 return []
             else:
                 triggered = True
+    # find all that the subsequent can go through
     for path in graph[x]:
             for each in traverse(path,visisted + [x],triggered,part2):
                 pathings.append([x] + each)
