@@ -9,5 +9,7 @@ I will use the past event as a means of imporving my coding skills as well as my
 All attempts will be made using Python.
 
 ## Subfolders:
-- **2020**: This is the subfolder for all AOC 2020 related resources
 - **2015**: This is the subfolder for all AOC 2015 related resources
+- **2016**: This is the subfolder for all AOC 2016 related resources
+- **2020**: This is the subfolder for all AOC 2020 related resources
+- **2021**: This is the subfolder for all AOC 2021 related resources
